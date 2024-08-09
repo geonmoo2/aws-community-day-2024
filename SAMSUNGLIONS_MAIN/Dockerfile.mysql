@@ -1,0 +1,9 @@
+# MySQL 8.0 이미지 사용
+FROM mysql:8.0
+
+# 환경 변수 설정
+ENV MYSQL_ROOT_PASSWORD=root_password
+ENV MYSQL_DATABASE=samsungdb
+
+# MySQL 포트 개방
+EXPOSE 3306

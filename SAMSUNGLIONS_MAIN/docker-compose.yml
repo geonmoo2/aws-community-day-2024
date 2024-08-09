@@ -1,0 +1,36 @@
+version: '3.8'
+
+networks:
+  my-network:
+    external: true
+
+services:
+  mysql:
+    image: mysql:8.0.39
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: samsungdb
+      MYSQL_USER: newuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    networks:
+      - my-network
+
+  spring-app:
+    image: samsunglions_main-spring-app
+    build:
+      context: .
+      dockerfile: Dockerfile.spring
+    container_name: spring-app
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/samsungdb
+      SPRING_DATASOURCE_USERNAME: newuser
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
